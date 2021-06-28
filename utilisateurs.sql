@@ -2,26 +2,25 @@
 
 -- Administrateurs
 
-CREATE ROLE admin;
-GRANT all privilege 
-ON LA_MAISONNEE 
-TO admin;
-CREATE USER 'mugen' IDENTIFIED BY '220409';
-CREATE USER 'thomas' IDENTIFIED BY '147852';
-CREATE USER 'lucas' IDENTIFIED BY '963258';
-GRANT admin 
+CREATE ROLE IF NOT EXISTS 'r_la_maisonnee_admin'@'localhost';                              -- creation du rôle
+GRANT all                                                                                  -- creation des privilèges
+ON la_maisonnee.*
+TO 'r_la_maisonnee_admin'@'localhost';
+CREATE USER 'mugen'@'localhost' IDENTIFIED BY '220409';                                    -- création des utilistateurs
+CREATE USER 'thomas'@'localhost' IDENTIFIED BY '147852';
+CREATE USER 'lucas'@'localhost' IDENTIFIED BY '963258';
+GRANT r_la_maisonnee_admin 
 TO 'mugen'@'localhost','lucas'@'localhost','thomas'@'localhost';
-
 -----------------------
 
 -- Utilisateurs employés
 
-CREATE ROLE Utilisateur;
+CREATE ROLE IF NOT EXISTS 'r_la_maisonnee_utilisateur'@'localhost'; 
 GRANT select 
-ON LA MAISONNEE 
-TO utilisateur;
-CREATE USER 'utilisateur' IDENTIFIED BY '123456';
-GRANT utilisateur 
-TO 'mugen'@'localhost';
+ON la_maisonnee.*  
+TO 'r_la_maisonnee_utilisateur'@'localhost';
+CREATE USER if NOT EXISTS 'charles'@'localhost' IDENTIFIED BY '123456';
+GRANT 'r_la_maisonnee_utilisateur'@'localhost'
+TO 'charles'@'localhost';
 
 -----------------------
